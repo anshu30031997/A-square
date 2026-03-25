@@ -777,14 +777,18 @@
     <p style="margin-top: 1rem; font-size: 0.8rem;">Replace this footer with your address, hours, and contact.</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" crossorigin="anonymous"></script>
+  <script src="js/qrcode.min.js"></script>
   <script>
     (function () {
       var pageUrl = String(window.location.href).replace(/#.*$/, "");
       var label = document.getElementById("gym-page-url");
       if (label) label.textContent = pageUrl;
       var canvas = document.getElementById("gym-qrcode");
-      if (typeof QRCode === "undefined" || !canvas) return;
+      if (!canvas) return;
+      if (typeof QRCode === "undefined") {
+        if (label) label.textContent = pageUrl + " (QR script failed to load.)";
+        return;
+      }
       QRCode.toCanvas(
         canvas,
         pageUrl,
